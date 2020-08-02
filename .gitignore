@@ -1,8 +1,3 @@
 # dependencies
 /node_modules
-/media
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.log
