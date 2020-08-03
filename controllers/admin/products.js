@@ -30,9 +30,6 @@ exports.postAddProduct = async (req, res) => {
       msg: `Product with the title ${title} already exists`,
     });
 
-  await file.mv(`${filePath}`);
-  await cover.mv(`${coverPath}`);
-
   product = new Product({
     user: req.user.id,
     title,
@@ -45,25 +42,38 @@ exports.postAddProduct = async (req, res) => {
     featured,
   });
   await product.save();
+  await file.mv(`${filePath}`);
+  await cover.mv(`${coverPath}`);
   return res.json({ success: true, msg: `${title} added successfully.` });
 };
 
 // Post admin edit product
 exports.postAdminEditProduct = async (req, res) => {
-  if (req.user.admin) {
-    const { title, description, price, category, _id } = req.body;
-    const productId = Number(_id);
-    const { file, cover } = req.files;
-    const fileSize = 1024 * 1024 * 1024 * 1024 * 2;
-    if (file && file.size > fileSize)
-      return res
-        .status(400)
-        .json({ success: false, msg: "file size must not exceed 2Gb" });
-    const coverSize = 1024 * 1024 * 5;
-    if (cover && cover.size > coverSize)
-      return res
-        .status(400)
-        .json({ success: false, msg: "Cover size must not exceed 5Mb" });
+  if (req.user.stuff) {
+    const {
+      title,
+      description,
+      price,
+      category,
+      featured,
+      published,
+    } = req.body;
+    const productId = req.body.id;
+    let file;
+    let cover;
+    if (req.files && req.files.file) {
+      file = req.files.file;
+      path = fileFilter(res, file);
+    }
+    if (req.files && req.files.cover) {
+      cover = req.files.cover;
+      coverPath = `media/images/${Date.now() + "_" + cover.name}`;
+      const coverSize = 1024 * 1024 * 5;
+      if (cover && cover.size > coverSize)
+        return res
+          .status(400)
+          .json({ success: false, msg: "Cover size must not exceed 5Mb" });
+    }
 
     const product = await Product.findOne({ _id: productId });
     if (title) product.title = title;
@@ -73,12 +83,15 @@ exports.postAdminEditProduct = async (req, res) => {
     if (featured) product.featured = featured;
     if (published) product.published = published;
     if (file) {
+      const [filePath] = path && path.filter((route) => route);
       deleteFile(`${product.file}`);
-      product.file = Date.now() + "_" + file.name;
+      product.file = filePath;
+      await file.mv(`${filePath}`);
     }
     if (cover) {
       deleteFile(`${product.cover}`);
-      product.cover = Date.now() + "_" + cover.name;
+      product.cover = coverPath;
+      await cover.mv(`${coverPath}`);
     }
     await product.save();
     return res.json({
@@ -90,7 +103,7 @@ exports.postAdminEditProduct = async (req, res) => {
 
 // Post admin delete product
 exports.postAdminDeleteProduct = async function (req, res) {
-  if (req.user.admin) {
+  if (req.user.stuff) {
     const { _id } = req.body;
     const product = await Product.findById(_id);
     await Product.findByIdAndDelete(_id);
