@@ -97,6 +97,7 @@ exports.postAdminEditProduct = async (req, res) => {
     return res.json({
       success: true,
       msg: `updated ${product.title} successfully.`,
+      product,
     });
   }
 };
