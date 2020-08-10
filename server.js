@@ -2,7 +2,6 @@
 require("express-async-errors");
 require("joi-objectid");
 const express = require("express");
-const bodyParser = require("body-parser");
 const config = require("config");
 const compression = require("compression");
 const cors = require("cors");
@@ -24,13 +23,14 @@ if (!config.get("jwtPrivateKey")) {
 const authRoutes = require("./routes/auth");
 const adminProducts = require("./routes/admin/products");
 const products = require("./routes/products/products");
+const shop = require("./routes/shop");
 
 const accessLogStream = fs.createWriteStream(join(__dirname, "errors.log"), {
   flags: "a",
 });
 
-app.use(express.json({limit: '10000mb'}));
-app.use(express.urlencoded({limit: '10000mb', extended: false}));
+app.use(express.json({ limit: "10000mb" }));
+app.use(express.urlencoded({ limit: "10000mb", extended: false }));
 app.use(express.static(join(__dirname, "media")));
 app.use("/media", express.static(join(__dirname, "media")));
 app.use("/media/videos", express.static(join(__dirname, "media/videos")));
@@ -59,6 +59,7 @@ app.use(compression());
 // create api router
 app.use("/api/users", authRoutes);
 app.use("/api/products", products);
+app.use("/api/shop", shop);
 app.use("/api/admin/products", adminProducts);
 
 mongoose

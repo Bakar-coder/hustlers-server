@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": ""
+  "jwtPrivateKey": "",
+  "STRIPE_KEY": "sk_test_MyQqc3S9Li6VOAet3zLu5qvt"
 }
