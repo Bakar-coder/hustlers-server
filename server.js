@@ -20,6 +20,16 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 
+if (!config.get("PAYPAL_CLIENT_ID")) {
+  console.error("************ NO PAYPAL_CLIENT_ID ADDED *************");
+  process.exit(1);
+}
+
+if (!config.get("PAYPAL_CLIENT_SECRET")) {
+  console.error("************ NO PAYPAL_CLIENT_SECRET ADDED *************");
+  process.exit(1);
+}
+
 const authRoutes = require("./routes/auth");
 const adminProducts = require("./routes/admin/products");
 const products = require("./routes/products/products");

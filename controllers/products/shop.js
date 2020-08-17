@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const PDFDocument = require("pdfkit");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const { Product } = require("../../models/Product");
 const Order = require("../../models/Order");
@@ -69,55 +68,44 @@ exports.postClearCart = async (req, res) => {
   }
 };
 
-exports.getCheckout = async (req, res) => {
-  const user = await User.findById(req.user.id);
-
-  if (user) {
-    const products = user.cart.items;
-    let total = 0;
-    products.forEach((p) => (total += p.quantity * p.productId.price));
-    return res.json({ success: true, products, totalSum: total });
-  }
-};
-
 exports.postOrder = async (req, res) => {
-  const token = req.body.stripeToken;
-  let totalSum = 0;
-  const user = await User.findById(req.user.id);
+  const billing = req.body;
+  const user = await await (await User.findById(req.user.id))
+    .populate("cart.items.productId")
+    .execPopulate();
   if (user) {
-    user.cart.items.forEach((p) => {
-      totalSum += p.quantity * p.productId.price;
+    const products = user.cart.items.map((item) => {
+      return { quantity: item.quantity, product: { ...item.productId._doc } };
     });
-
-    const products = user.cart.items.map((i) => {
-      return { quantity: i.quantity, product: { ...i.productId._doc } };
-    });
-
     const order = new Order({
       user: {
         email: req.user.email,
-        userId: req.user,
+        userId: req.user.id,
       },
       products,
+      billing,
     });
+
     await order.save();
-    const charge = await stripe.charges.create({
-      amount: totalSum * 100,
-      currency: "usd",
-      description: "Demo Order",
-      source: token,
-      metadata: { order_id: result._id.toString() },
+    await user.clearCart();
+    return res.json({
+      success: true,
+      msg: "Your order as been submitted successfully",
+      order,
     });
-    if (charge) {
-      await req.user.clearCart();
-      return res.json({ success: true, msg });
-    }
   }
 };
 
 exports.getOrders = async (req, res) => {
   const orders = await Order.find({ "user.userId": req.user.id });
   if (orders) return res.json({ success: true, orders });
+};
+
+exports.deleteOrder = async (req, res) => {
+  const { orderId } = req.body;
+  await Order.findByIdAndDelete(orderId);
+  const orders = await Order.find();
+  return res.json({ success: true, msg: "order removed successfully", orders });
 };
 
 exports.getInvoice = async (req, res) => {

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@paypal/payouts-sdk": "^1.0.0",
     "algoliasearch": "^3.32.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -27,7 +28,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
-    "express-fileupload": "^1.1.4",
+    "express-fileupload": "^1.1.10",
     "express-handlebars": "^3.0.2",
     "express-jwt": "^5.3.3",
     "express-mysql-session": "^2.1.0",
@@ -35,15 +36,15 @@
     "express-validator": "^5.3.1",
     "faker": "^4.1.0",
     "fawn": "^2.1.5",
-    "gravatar": "^1.8.0",
-    "helmet": "^3.16.0",
+    "gravatar": "^1.8.1",
+    "helmet": "^4.0.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "joi-password-complexity": "^2.0.1",
     "jsonwebtoken": "^8.5.0",
     "jwks-rsa": "^1.8.1",
     "knex": "^0.16.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mongodb": "^3.2.3",
@@ -65,17 +66,17 @@
     "paypal-rest-sdk": "^1.8.1",
     "pdfkit": "^0.9.0",
     "pg": "^7.8.2",
-    "sequelize": "^5.3.1",
+    "sequelize": "^5.22.3",
     "stripe": "^6.36.0",
     "twilio": "^3.48.1",
     "validator": "^10.11.0",
     "winston": "^2.4.0",
-    "winston-mongodb": "^3.0.0"
+    "winston-mongodb": "^5.0.1"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
+    "concurrently": "^5.3.0",
     "jasmine": "^3.4.0",
-    "jest": "^24.7.1",
+    "jest": "^26.4.0",
     "supertest": "^4.0.2"
   }
 }
