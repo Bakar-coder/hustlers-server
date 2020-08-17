@@ -1,5 +1,0 @@
-{
-  "jwtPrivateKey": "secretkey",
-  "PAYPAL_CLIENT_ID": "clientId",
-  "PAYPAL_CLIENT_SECRET": "clientSecret"
-}

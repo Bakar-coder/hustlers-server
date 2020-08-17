@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "server.js",
     "server": "nodemon server.js",
-    "heroku-postbuild": "NODE_ENV=production npm start",
+    "heroku-postbuild": "npm start",
     "test": "jest"
   },
   "keywords": [],
