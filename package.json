@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "heroku-postbuild": "npm start",
     "test": "jest"
