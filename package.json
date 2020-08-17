@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
+    "heroku-postbuild": "npm start",
     "test": "jest"
   },
   "keywords": [],
