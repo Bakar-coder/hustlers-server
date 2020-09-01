@@ -1,7 +1,6 @@
 const { Product, validateProduct } = require("../../models/Product");
 const { fileFilter, deleteFile } = require("../../utils/file");
 let path;
-let coverPath;
 
 // Post admin add product
 exports.postAddProduct = async (req, res) => {
@@ -11,16 +10,17 @@ exports.postAddProduct = async (req, res) => {
       .status(400)
       .json({ success: false, msg: error.details[0].message });
 
-  let { file, cover } = req.files;
-  const { title, description, price, category, published, featured } = req.body;
+  let { file } = req.files;
+  const {
+    title,
+    stock,
+    description,
+    price,
+    category,
+    published,
+    featured,
+  } = req.body;
   path = fileFilter(res, file);
-  if (cover) coverPath = `media/images/${Date.now() + "_" + cover.name}`;
-  const imageSize = 1024 * 1024 * 5;
-  if (cover.size > imageSize)
-    return res
-      .status(400)
-      .json({ success: false, msg: "Image file size should not exide 5Mbs" });
-
   const [filePath] = path && path.filter((route) => route);
 
   let product = await Product.findOne({ title });
@@ -33,17 +33,16 @@ exports.postAddProduct = async (req, res) => {
   product = new Product({
     user: req.user.id,
     title,
+    stock,
     description,
-    category,
     price,
-    file: filePath,
-    cover: coverPath,
+    category,
     published,
     featured,
+    file: filePath,
   });
   await product.save();
   await file.mv(`${filePath}`);
-  await cover.mv(`${coverPath}`);
   return res.json({ success: true, msg: `${title} added successfully.` });
 };
 
@@ -60,19 +59,10 @@ exports.postAdminEditProduct = async (req, res) => {
     } = req.body;
     const productId = req.body.id;
     let file;
-    let cover;
+
     if (req.files && req.files.file) {
       file = req.files.file;
       path = fileFilter(res, file);
-    }
-    if (req.files && req.files.cover) {
-      cover = req.files.cover;
-      coverPath = `media/images/${Date.now() + "_" + cover.name}`;
-      const coverSize = 1024 * 1024 * 5;
-      if (cover && cover.size > coverSize)
-        return res
-          .status(400)
-          .json({ success: false, msg: "Cover size must not exceed 5Mb" });
     }
 
     const product = await Product.findOne({ _id: productId });
@@ -88,11 +78,7 @@ exports.postAdminEditProduct = async (req, res) => {
       product.file = filePath;
       await file.mv(`${filePath}`);
     }
-    if (cover) {
-      deleteFile(`${product.cover}`);
-      product.cover = coverPath;
-      await cover.mv(`${coverPath}`);
-    }
+
     await product.save();
     return res.json({
       success: true,
@@ -109,7 +95,6 @@ exports.postAdminDeleteProduct = async function (req, res) {
     const product = await Product.findById(_id);
     await Product.findByIdAndDelete(_id);
     deleteFile(`${product.file}`);
-    deleteFile(`${product.cover}`);
     return res.json({
       success: true,
       msg: `deleted ${product.title} successfully.`,

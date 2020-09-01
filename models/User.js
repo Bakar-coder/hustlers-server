@@ -13,6 +13,7 @@ const userSchema = new Schema({
   password: { type: "String", required: true, min: 8, max: 25 },
   admin: { type: "Boolean", required: false },
   stuff: { type: "Boolean", default: false },
+  member: { type: "Boolean", default: false },
   active: { type: "Boolean", default: false },
   createdAt: { type: "Date", default: Date.now },
   resetToken: String,
@@ -42,6 +43,7 @@ userSchema.methods.generateAuthToken = function () {
     avatar: this.avatar,
     admin: this.admin,
     stuff: this.stuff,
+    member: this.member,
     active: this.active,
     resetToken: this.resetToken,
   };
@@ -59,6 +61,7 @@ const validateRegister = (user) => {
     password: Joi.string().required().min(8).max(25),
     admin: Joi.boolean(),
     stuff: Joi.boolean(),
+    member: Joi.boolean(),
     active: Joi.boolean(),
   };
 

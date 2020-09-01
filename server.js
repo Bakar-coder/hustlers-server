@@ -34,6 +34,8 @@ const authRoutes = require("./routes/auth");
 const adminProducts = require("./routes/admin/products");
 const products = require("./routes/products/products");
 const shop = require("./routes/shop");
+const media = require("./routes/media");
+const events = require("./routes/events");
 
 const accessLogStream = fs.createWriteStream(join(__dirname, "errors.log"), {
   flags: "a",
@@ -70,6 +72,8 @@ app.use(compression());
 app.use("/api/users", authRoutes);
 app.use("/api/products", products);
 app.use("/api/shop", shop);
+app.use("/api/media", media);
+app.use("/api/events", events);
 app.use("/api/admin/products", adminProducts);
 
 mongoose

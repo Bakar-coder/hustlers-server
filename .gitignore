@@ -1,5 +1,5 @@
-errors.log
 # dependencies
 /node_modules
 /media
 /.idea
+*.log

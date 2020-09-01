@@ -34,7 +34,7 @@ exports.fileFilter = (res, file) => {
     const mimes = ["audio/mp3", "audio/mpeg"];
     const fileformat = "Audio";
     filterMimes(mimes, fileformat);
-    const audioSize = 1024 * 1024 * 100;
+    const audioSize = 1024 * 1024 * 500;
     if (file.size > audioSize)
       return res.status(400).json({
         success: false,
