@@ -1,9 +1,10 @@
 const { Event, validateEvent } = require("../../models/Event");
+const { fileFilter, deleteFile } = require("../../utils/file");
 
 // event api..........................................................................
 exports.getAllEvents = async (req, res) => {
-  const event = await Event.find().sort({ createdAt: -1 });
-  if (event) return res.json({ success: true, event });
+  const events = await Event.find().sort({ createdAt: -1 });
+  if (events) return res.json({ success: true, events });
 };
 
 exports.postAddEvent = async (req, res) => {
@@ -24,7 +25,7 @@ exports.postAddEvent = async (req, res) => {
         msg: `There is an event running with the same title ${title}.`,
       });
 
-    event = new event({
+    event = new Event({
       user: req.user.id,
       title,
       venue,

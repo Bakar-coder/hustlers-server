@@ -36,6 +36,8 @@ const products = require("./routes/products/products");
 const shop = require("./routes/shop");
 const media = require("./routes/media");
 const events = require("./routes/events");
+const photos = require("./routes/photos");
+const contact = require("./routes/contact");
 
 const accessLogStream = fs.createWriteStream(join(__dirname, "errors.log"), {
   flags: "a",
@@ -74,6 +76,8 @@ app.use("/api/products", products);
 app.use("/api/shop", shop);
 app.use("/api/media", media);
 app.use("/api/events", events);
+app.use("/api/photos", photos);
+app.use("/api/contact", contact);
 app.use("/api/admin/products", adminProducts);
 
 mongoose
