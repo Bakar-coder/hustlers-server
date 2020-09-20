@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "heroku-postbuild": "NODE_ENV=production npm start",
+    "heroku-postbuild": "NODE_ENV=production mkdir media && mkdir media/audios && mkdir media/videos && mkdir media/images && npm run build && npm start",
     "test": "jest"
   },
   "keywords": [],
