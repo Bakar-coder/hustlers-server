@@ -1,11 +1,4 @@
 {
   "jwtPrivateKey": "",
-  "proddb": "mongodb+srv://ghetto:yw7SMS8DpEXaZL56@ghettohustler.bqogt.mongodb.net/ghetto?retryWrites=true&w=majority",
-  "COLLECTIONS_USER_SECRET": "3da6149e264b4b0abbe5cdb3aaf63190",
-  "COLLECTIONS_USER_ID": "d66e82e7-b843-4d5b-b79f-403a71d70c34",
-  "COLLECTIONS_PRIMARY_KEY": "afe3bfebff6747a9b21e9080683a6a02",
-  "CALLBACK_HOST": "localhost:5000",
-  "STRIPE_KEY": "sk_test_MyQqc3S9Li6VOAet3zLu5qvt",
-  "PAYPAL_CLIENT_ID": "AT8_KxiX7NoKv1SHXIObcISSOva5RMgJpATir6EbUgGYawYy1063f4g50aZr5GM8Iuk0CpKc4YAun8nR",
-  "PAYPAL_CLIENT_SECRET": "EBLLZlCK4PzdKEHthoYgYHGZnxeKQGeHZlq6dHE7gbWT_NTs52gqMl_o9Ct5Pu4IsMhtIBsOlr77T2Da"
+  "proddb": ""
 }
