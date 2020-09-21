@@ -1,5 +1,6 @@
 {
   "jwtPrivateKey": "",
+  "proddb": "mongodb+srv://ghetto:yw7SMS8DpEXaZL56@ghettohustler.bqogt.mongodb.net/ghetto?retryWrites=true&w=majority",
   "COLLECTIONS_USER_SECRET": "3da6149e264b4b0abbe5cdb3aaf63190",
   "COLLECTIONS_USER_ID": "d66e82e7-b843-4d5b-b79f-403a71d70c34",
   "COLLECTIONS_PRIMARY_KEY": "afe3bfebff6747a9b21e9080683a6a02",
